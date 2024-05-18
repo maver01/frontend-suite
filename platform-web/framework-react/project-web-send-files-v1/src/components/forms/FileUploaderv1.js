@@ -10,21 +10,22 @@ import React, {useRef} from 'react'
 const FileUploader = ({onFileSelect, onFileSelectError}) => {
     const fileInput = useRef(null)
 
-    const handleFileInput = (e) => {
+    
+    const handleFileInput = (selectedFiles) => {
         // loop over files
         try {
             // throw new Error('File not loaded') // for debugging purposes
-            for (let i = 0; i < e.target.files.length; i++) {
-                console.log('File',e.target.files[i].name, 'loaded successfully!')
+            for (let i = 0; i < selectedFiles.target.files.length; i++) {
+                console.log('File',selectedFiles.target.files[i].name, 'loaded successfully!')
                 // handle validations
-                onFileSelect(e.target.files)   
+                onFileSelect(selectedFiles) // send the selected files to the parent component
             }
         } catch (error) {
-            onFileSelectError({error: error.message})
+            onFileSelectError({error: error}) // send error to the parent component
         }
 
         // log all files
-        console.log(e.target.files)
+        console.log(selectedFiles.target.files)
     }
     return (
         <div className="file-uploader">

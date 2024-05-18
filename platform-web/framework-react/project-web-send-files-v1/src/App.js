@@ -1,26 +1,34 @@
 import './App.css';
 import React, { useState } from "react";
 import FileUploader from "./components/forms/FileUploaderv1";
+import FileSender from "./components/forms/FileSenderv1";
 
 // function that creates a webpage where user can upload files
 function App() {
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFiles, setSelectedFiles] = useState(null);
+  const [responseReceived, setResponseReceived] = useState(null);
+
   return (
     <div className="App">
       <header className="App-header">
         <h1>Client</h1>
-        <p>Upload files to server</p>
+        <p>Upload files from desktop</p>
         <form>
-          <FileUploader 
-            onFileSelect={(files) => setSelectedFile(files)}
-            onFileSelectError={({error}) => alert(error)}
+          <FileUploader
+            onFileSelect={(selectedFiles) => setSelectedFiles(selectedFiles)}
+            onFileSelectError={({error}) => alert(error.message)}
           />
         </form>
 
-      </header>
+      <p>Send uploaded files to server</p>
       <div>
-        <button>Loader button</button>
+        <FileSender
+            selectedFiles={selectedFiles} // Pass selected files as a prop to FileSender
+            onResponseReceived={(responseReceived) => setResponseReceived(responseReceived)}
+            onResponseReceivedError={({error}) => alert(error)}
+        />
       </div>
+      </header>
     </div>
   );
 }
